@@ -14,7 +14,7 @@ const protect = (req, res, next) => {
   try {
     // Verify token and attach user to request
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // contains the { id } from login/register
+    req.userId = decoded.id; // contains the { id } from login/register
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Invalid or expired token.' });

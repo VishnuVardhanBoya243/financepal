@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
+
 // Load env variables
 dotenv.config();
 
@@ -10,12 +11,22 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
 app.use(express.json());
+
+const allowedOrigins = ["http://localhost:5173"]; // your frontend URL
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true, // allow cookies/auth headers
+  })
+);
 
 // Routes
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
+const transactionRoutes = require('./routes/transactions');
+app.use('/api/transactions', transactionRoutes);
+
 
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 3001;
